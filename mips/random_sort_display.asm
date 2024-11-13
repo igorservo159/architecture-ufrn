@@ -17,10 +17,11 @@ main:
 
 generate_random:
   li $v0, 42                    # Syscall para gerar número aleatório
+  li $a0, 1			# Teste seed
   li $a1, 255                   # Limite superior (0 a 255)
   syscall
 
-  sw $v0, 0($s0)                # Armazena o número aleatório no array
+  sw $a0, 0($s0)                # Armazena o número aleatório no array
   addi $s0, $s0, 4              # Avança para a próxima posição do array
   subi $t0, $t0, 1              # Decrementa contador
   bgtz $t0, generate_random     # Loop até completar os 10 números - branch if greater than zero" (desviar se maior que zero)
