@@ -43,22 +43,18 @@ message_loop:
     srlv $t8, $t1, $t7 # Desloca o byte para o LSB (posição menos significativa)
     andi $t8, $t8, 0xFF # Isola o byte atual (8 bits)
 
-    beq $t4, $t3, break_if_nibble_one # Verifica se deve processar o nibble mais significativo
-
+    # Seleciona o nibble válido
+    beq $t4, $t3, nibble_one # Verifica se deve processar o nibble mais significativo
     andi $t8, $t8, 0xF # Isola o nibble menos significativo do byte
-    sll $t6, $t6, 4 # Desloca o caractere final 4 bits à esquerda
-    or $t6, $t6, $t8 # Adiciona o nibble à word final
+    j store_nibble
 
-    j break_if_byte_useless 
-
-  break_if_nibble_one:
+  nibble_one:
     srl $t8, $t8, 4 # Desloca para obter o nibble mais significativo
     andi $t8, $t8, 0xF # Isola o nibble mais significativo
 
+  store_nibble:
     sll $t6, $t6, 4 # Desloca o caractere final 4 bits à esquerda
     or $t6, $t6, $t8 # Adiciona o nibble à word final
-
-    j break_if_byte_useless 
 
   break_if_byte_useless:
     beq $t5, 0, end_word_loop # Se todos os bytes foram processados, sai do loop
