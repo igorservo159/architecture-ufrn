@@ -98,4 +98,3 @@ display_sorted_loop:
 
   li $v0, 10                    # Syscall para encerrar o programa
   syscall
-
